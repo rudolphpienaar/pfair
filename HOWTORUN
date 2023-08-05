@@ -1,0 +1,52 @@
+#
+# PRELIMINARIES -- on the "server"
+#
+# Build the container and then "run --name pfair " it.
+# Depending on your purpose, choose either the Quick 'n dirty run --name pfair
+# or, while developing, choose the run --name pfair  with support for source debugging.
+#
+
+# Build (for fish shell syntax!)
+set UID (id -u)
+docker build --build-arg UID=$UID -t local/pfair .
+
+# Quick 'n dirty run -- this is most likely what you'll mostly do.
+# Obviously change port mappings if needed (and in the Dockerfile)
+# Port 4005 is the actual pfair server, and port 55553 is the xinetd listener
+# THIS STARTS IN INTERACTIVE MODE
+docker run --name pfair  --rm -it      						\
+        -p 55553:55553 	                                                        \
+        -v /home/dicom:/home/dicom                                              \
+        local/pfair /start-reload.sh
+
+# For daemon, or background mode:
+docker run --name pfair  --rm -it -d                                            \
+        -p 55553:55553 	                                                        \
+        -v /home/dicom:/home/dicom                                              \
+        local/pfair /start-reload.sh
+
+
+# Quick 'n dirty run   -- with volume mapping suitable for FNNDSC.
+# Obviously change port mappings if needed (and in the Dockerfile)
+# Here the -p 10502 mapping demonstrates how to map some external port
+# on the host that might be receiving DICOM data to the internal listener.
+docker run --name pfair  --rm -it -d                                            \
+        -p 55553:55553 	                                                        \
+        -v /home/dicom:/home/dicom                                              \
+        -v /neuro/users/chris/PACS:/neuro/users/chris/PACS                      \
+        local/pfair /start-reload.sh
+
+# Run with support for source debugging
+docker-compose up pfair-db
+docker-compose up pfair-db-ui
+docker run --name pfair  --rm -it                                              	\
+        --network pfair_pfair                                                   \
+        -e ReadWriteKey=tangoru                                                 \
+        -e DB=tangoru                                                           \
+        -e DBauthPath=/home/dicom/services/pfair.json                           \
+        -e pfair_MONGODB=mongodb://pfair-db:27017                               \
+        -p 55553:55553 	                                                        \
+        -v /home/dicom:/home/dicom                                             	\
+        -v $PWD/pfair:/pfair:ro                                                 \
+        local/pfair
+

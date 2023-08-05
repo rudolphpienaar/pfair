@@ -1,0 +1,3 @@
+`pfair` is a simple fastAPI / mongodb interface to a set of purpleair sensors.
+
+API documentation is available at :55553/docs

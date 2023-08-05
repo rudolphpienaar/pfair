@@ -1,0 +1,24 @@
+psutil
+
+# Debugging
+pudb
+ipython
+
+# Database
+motor
+dnspython
+
+# Logging
+loguru
+
+# fastAPI
+fastapi
+uvicorn
+
+# Misc
+numpy
+scipy
+pfstate
+webob
+pypx
+
