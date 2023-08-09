@@ -18,7 +18,9 @@ uvicorn
 # Misc
 numpy
 scipy
-pfstate
-webob
-pypx
+
+# Client
+persair
+
+
 
