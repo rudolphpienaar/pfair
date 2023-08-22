@@ -1,21 +1,23 @@
 version: '3.8'
 
 services:
-  pfair:
-    image: local/pfair
-    container_name: pfair
-    restart: unless-stopped
-    environment:
-      ReadWriteKey: tangoru
-      DB: tangoru
-      DBauthPath: /home/dicom/services/pfair.json
-      pfair_MONGODB: mongodb://pfair-db:27017
-    ports:
-      - "55553:55553"
-    networks:
-      local:
-      pfair:
-
+  #  pfair:
+  #    image: local/pfair
+  #    container_name: pfair
+  #    restart: unless-stopped
+  #    environment:
+  #      ReadWriteKey: tangoru
+  #      DB: tangoru
+  #      DBauthPath: /home/dicom/services/pfair.json
+  #      pfair_MONGODB: mongodb://pfair-db:27017
+  #    volumes:
+  #      - ./pfair:/pfair:ro
+  #    ports:
+  #      - "55553:55553"
+  #    networks:
+  #      local:
+  #      pfair:
+  #
   pfair-db:
     image: mongo
     environment:

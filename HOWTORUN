@@ -42,7 +42,7 @@ docker-compose up pfair-db-ui
 docker run --name pfair  --rm -it                                              	\
         --network pfair_pfair                                                   \
         -e ReadWriteKey=tangoru                                                 \
-        -e DB=tangoru                                                           \
+        -e DB=tanguro                                                          \
         -e DBauthPath=/home/dicom/services/pfair.json                           \
         -e pfair_MONGODB=mongodb://pfair-db:27017                               \
         -p 55553:55553 	                                                        \
