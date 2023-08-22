@@ -1,5 +1,6 @@
 from math import dist
-from    typing              import Any, List, TypedDict
+from time import monotonic
+from    typing              import Any, List, TypedDict, Collection
 from h11 import Data
 from    pydantic            import BaseModel, Field
 
@@ -8,15 +9,18 @@ from    datetime            import datetime
 from    pathlib             import Path
 
 
+#from    pfstate             import S
+from    pfmisc.C_snode      import C_stree
 from    models              import sensorModel
 from    config              import settings
 import  sys
 import  shutil
 import  pudb
 
-from    pymongo.collection  import Collection
+import  pymongo
 from    pymongo             import MongoClient
 from    pymongo.database    import Database
+from    pymongo.collection  import Collection
 
 class PFdb_mongo():
     """
@@ -111,7 +115,6 @@ class PFdb_mongo():
         d_collection:dict                   = self.Mongo_connectCollection('sensors')
         self.collection:Collection[Any]     = d_collection['collection']
         self.collection: Collection[Any]    = d_collection['collection']
-        collectionExists:bool               = d_collection['status']
 
-        self.keys = self.readwriteKeys_inCollectionGet(d_readwrite, collectionExists)
+        self.keys = self.readwriteKeys_inCollectionGet(d_readwrite, d_collection['status'])
 
