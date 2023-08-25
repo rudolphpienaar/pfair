@@ -1,7 +1,4 @@
-from math import dist
-from time import monotonic
-from    typing              import Any, List, TypedDict, Collection
-from h11 import Data
+from    typing              import Any, List, TypedDict
 from    pydantic            import BaseModel, Field
 
 import  json
@@ -83,6 +80,13 @@ class PFdb_mongo():
         return d_ret
 
     def Mongo_connectCollection(self, mongocollection:str) -> dict:
+        """
+        Simply connect to a named "collection" in a mongoDB and return
+        the collection and its status.
+
+        :param mongocollection: the name of the collection
+        :return: a dictionary with the collection and a status
+        """
         d_ret:dict  = {
             'status':       True if mongocollection in self.DB.list_collection_names() else False,
             'collection':   self.DB[mongocollection]
@@ -109,12 +113,11 @@ class PFdb_mongo():
             self.APIkeys_readFromFile(settingsKeys.ReadWriteKey)
 
         # Connect to the DB
-        self.DB:Database[Any]   = self.Mongo_connectDB(settingsMongo.DB)['DB']
+        self.DB:Database[Any]               = self.Mongo_connectDB(settingsMongo.DB)['DB']
 
         # Connect to the collection
         d_collection:dict                   = self.Mongo_connectCollection('sensors')
         self.collection:Collection[Any]     = d_collection['collection']
-        self.collection: Collection[Any]    = d_collection['collection']
 
         self.keys = self.readwriteKeys_inCollectionGet(d_readwrite, d_collection['status'])
 
