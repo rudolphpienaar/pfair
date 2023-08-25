@@ -1,0 +1,39 @@
+version: '3'
+services:
+  pfair-db:
+    image:  mongo:latest
+    security_opt:
+      - seccomp=unconfined
+    container_name: pfair-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - /tmp/db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: examplepassword
+    networks:
+      pfair:
+
+  pfair-db-ui:
+    image: mongo-express
+    security_opt:
+      - seccomp=unconfined
+    depends_on:
+      - pfair-db
+    ports:
+      - 8081:8081
+    volumes:
+      - /tmp/db:/data/db
+    environment:
+      -  ME_CONFIG_MONGODB_SERVER=pfair-db
+      -  ME_CONFIG_MONGODB_PORT=27017
+    restart: unless-stopped
+    networks:
+      pfair:
+
+
+networks:
+  local:
+  pfair:
+    driver: bridge

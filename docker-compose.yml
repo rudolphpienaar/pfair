@@ -19,10 +19,14 @@ services:
   #      pfair:
   #
   pfair-db:
-    image: mongo
+    image: mongo:latest
+    security_opt:
+      - seccomp=unconfined
     environment:
       - PUID=1000
       - PGID=1000
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=examplepassword
     ports:
       - 27017:27017
     volumes:
