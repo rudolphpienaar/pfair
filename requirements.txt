@@ -3,6 +3,7 @@ psutil
 # Debugging
 pudb
 ipython
+pytest
 
 # Database
 motor
@@ -10,10 +11,12 @@ dnspython
 
 # Logging
 loguru
+pfmisc
 
 # fastAPI
 fastapi
 uvicorn
+pydantic_settings
 
 # Misc
 numpy
@@ -21,6 +24,7 @@ scipy
 
 # Client
 persair
+matplotlib
 
 
 
